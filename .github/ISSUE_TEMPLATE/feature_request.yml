@@ -7,14 +7,14 @@ body:
     id: idea
     attributes:
       label: 建议内容 | What
-      description: 想增加什么技能或功能（如新的 TTS 引擎、新的发布渠道、新的流水线阶段）
+      description: 想改进 arXiv TeX、XMU Beamer、编译或 PDF 检查中的哪个环节
     validations:
       required: true
   - type: textarea
     id: why
     attributes:
       label: 使用场景 | Why
-      description: 在什么场景下需要它，解决了什么问题
+      description: 在论文讲解 PDF 制作的什么场景下需要它，解决了什么问题
     validations:
       required: true
   - type: textarea

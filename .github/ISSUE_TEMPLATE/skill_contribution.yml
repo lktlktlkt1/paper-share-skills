@@ -7,7 +7,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        提交前请阅读 [CONTRIBUTING.md](../../CONTRIBUTING.md)：SKILL.md frontmatter `name` = 目录名、无个人路径、无贴纸残留、grep + py_compile 检查通过。
+        提交前请阅读 [CONTRIBUTING.md](../../CONTRIBUTING.md)：本 Fork 仅接受 arXiv TeX → XMU Beamer → PDF 范围内的技能改进。
   - type: input
     id: skill
     attributes:
@@ -26,9 +26,9 @@ body:
     attributes:
       label: 检查清单 | Checklist
       options:
-        - label: grep 检查无个人路径（disco / Paper_Survey_Env / 杨昊波 等）
+        - label: grep 检查无个人路径、凭据或旧品牌残留
           required: true
-        - label: 所有 .py 通过 py_compile
+        - label: 所有 Python 脚本通过 py_compile
           required: true
-        - label: 无 .venv / voices / cookie 混入
+        - label: 无 .venv / Cookie / 编译缓存混入
           required: true

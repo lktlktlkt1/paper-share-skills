@@ -5,6 +5,8 @@ Stdlib-only. Usage:
     python download_source.py <arxiv-url|arxiv-id> [--output DIR] [--force]
 """
 
+from __future__ import annotations
+
 import argparse
 import gzip
 import re
@@ -20,7 +22,10 @@ USER_AGENT = (
     "(KHTML, like Gecko) Chrome/126.0 Safari/537.36"
 )
 ID_RE = re.compile(r"(\d{4}\.\d{4,5})(v\d+)?")
-URL_PREFIX_RE = re.compile(r"(?:export\.)?arxiv\.org/(?:abs|pdf|e-print)/")
+URL_PREFIX_RE = re.compile(
+    r"(?:(?:export\.)?arxiv\.org/(?:abs|pdf|e-print)/|doi\.org/10\.48550/arXiv\.)",
+    re.IGNORECASE,
+)
 EPRINT_URL = "https://arxiv.org/e-print/{id}"
 
 

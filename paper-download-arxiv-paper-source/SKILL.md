@@ -1,82 +1,46 @@
 ---
 name: paper-download-arxiv-paper-source
-description: |
-  Download the TeX source (e-print tar.gz) of an arXiv paper from an arXiv URL or bare ID,
-  and unpack it into paper_src/. Use FIRST whenever a pipeline input is an arXiv link and
-  the TeX source is preferred over the PDF (paper-to-beamer, paper-to-bilibili, paper-venue-discovery).
-  Invoke with an arXiv URL (abs/pdf/e-print, arxiv.org or export.arxiv.org) or a bare ID like 2509.07996v4.
-user-invocable: true
-argument-hint: "<arxiv-url|arxiv-id>"
+description: Download and safely unpack the TeX e-print of an arXiv paper from an arXiv abs, PDF, e-print URL, DOI redirect, or bare arXiv ID. Use first when the paper-to-beamer workflow receives an arXiv reference so equations, tables, bibliography, and original figures can be read directly from source instead of parsing a PDF.
 ---
 
-# Download arXiv Paper TeX Source
+# Download arXiv Paper Source
 
-Given an arXiv link or bare arXiv ID, download the paper's **TeX source** from
-`https://arxiv.org/e-print/<id>` and unpack it for downstream pipelines. This is
-the required first step whenever the user provides an arXiv link and the TeX
-source (not just the PDF) should feed the pipeline — TeX source preserves tables,
-equations, and figures exactly and skips MinerU.
+Turn an arXiv reference into a local, inspectable TeX source tree for
+`paper-to-beamer`.
 
-## When to use
+## Run
 
-- User supplies an arXiv URL (`arxiv.org/abs/…`, `arxiv.org/pdf/…`,
-  `arxiv.org/e-print/…`, `export.arxiv.org/…`) or a bare ID (`2509.07996`,
-  `2509.07996v4`) as the input to any paper pipeline.
-- A consumer skill needs the paper source on disk (`paper_src/`) but only has
-  an arXiv reference.
-
-## Invocation
+Resolve this skill's directory from the active skill location, then run:
 
 ```bash
-uv run --no-project python \
-  "<SKILLS_DIR>/paper-download-arxiv-paper-source/scripts/download_source.py" \
-  "<arxiv-url|arxiv-id>" [--output DIR] [--force]
+python3 <skill-dir>/scripts/download_source.py \
+  "<arxiv-url-or-id>" \
+  --output "<absolute-work-directory>"
 ```
 
-- `--output` defaults to the session cwd.
-- `--force` re-downloads even if the archive already exists.
+Accepted inputs include:
 
-## Output contract
+- `https://arxiv.org/abs/2502.12110`
+- `https://arxiv.org/pdf/2502.12110`
+- `https://doi.org/10.48550/arXiv.2502.12110`
+- `2502.12110` or a versioned ID such as `2502.12110v2`
 
-Under the output dir:
+Use `--force` only when the existing archive must be downloaded again.
 
-- `arXiv-<id>.tar.gz` — downloaded e-print archive (gzip/tar).
-- `paper_src/` — extracted TeX source (flattened if the archive wraps in a
-  single top-level directory; unsafe members are rejected).
-- PDF-only submissions (no TeX source on arXiv): `arXiv-<id>.pdf` instead.
-- Single-file TeX submissions: `arXiv-<id>.tex` instead.
+## Read the output contract
 
-On success stdout ends with `TEX_SOURCES: <comma-separated relative paths>`
-(or `PDF_ONLY: <abs pdf path>`). Consume these lines — never guess file names.
+Do not guess paths. Read the final status line printed by the script:
 
-## Idempotency
+- `TEX_SOURCES: ...` — use the listed files under `paper_src/`.
+- `DOWNLOADED ...tex` — use the single-file submission directly.
+- `PDF_ONLY: ...pdf` — stop and tell the user this TeX-source-only workflow
+  cannot continue. Do not silently install or invoke MinerU.
+- `ERROR: ...` with a nonzero exit — report the specific failure and stop.
 
-Re-running with the same ID in the same output dir skips the download
-(stdout starts `SKIP`) unless `--force` is given; extraction is still verified.
+The script rejects unsafe archive paths and skips links and special files.
 
-## Failure
+## Hand-off
 
-Nonzero exit + `ERROR:` message on stderr (parse failure, network failure,
-empty body, unexpected payload, unsafe archive member, no `.tex` in archive).
-The pipeline must stop and report — never silently fall back to the PDF.
-
-## Fallback note
-
-If the script reports `PDF_ONLY: <path>`, the paper has no TeX source on arXiv.
-Consumers then use that PDF with the MinerU path (e.g. paper-to-beamer Phase 2's
-DECISION GATE) instead of reading TeX.
-
-## Consumed by
-
-- `paper-to-beamer` Phase 1 (arXiv link/ID input)
-- `paper-to-bilibili` slides mode (entries with `arxiv_id`, no local source)
-- `paper-venue-discovery` step 1 (fetch source when only a link is given)
-
-## Related skills
-
-- skill://paper-to-beamer
-- skill://paper-to-bilibili
-- skill://paper-venue-discovery
-- skill://paper-to-beamer-workflow
-- skill://paper-bilibili-multi-part-series-upload
-- skill://paper-bilibili-series-upload
+After a successful TeX download, invoke `paper-to-beamer` with the original
+arXiv reference and the absolute work directory. Keep the downloaded source
+unchanged; put generated slide files in a separate output directory.
