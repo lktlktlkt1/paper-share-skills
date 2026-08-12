@@ -6,7 +6,7 @@
 这是 [yhbcode000/paper-share-skills](https://github.com/yhbcode000/paper-share-skills)
 的个人 Fork，并与
 [lktlktlkt1/xmu-slides-template](https://github.com/lktlktlkt1/xmu-slides-template)
-配套使用。原作者仓库不会因为本 Fork 的提交而发生变化。
+配套使用。
 
 ## 当前范围
 
@@ -24,14 +24,14 @@ XeLaTeX 编译与逐页检查
 最终讲解 PDF
 ```
 
-本 Fork 只保留两个技能：
+本 Fork 保留两个技能：
 
 | 技能 | 作用 |
 |:---|:---|
 | `paper-download-arxiv-paper-source` | 下载并安全解压 arXiv e-print 源码 |
 | `paper-to-beamer` | 生成、编译并检查 XMU 中文 Beamer PDF |
 
-不包含 MinerU、任意 PDF 解析、PPTX、配音、视频、封面、B 站上传或发布流程。
+不包含 MinerU、任意 PDF 解析、PPTX、配音、视频、封面、B 站上传或发布流程！详情请见原仓库。
 如果 arXiv 只提供 PDF 而没有 TeX 源码，流程会明确停止。
 
 ## 安装到 Codex
@@ -60,7 +60,7 @@ cp -R ~/paper-share-skills/paper-to-beamer ~/.codex/skills/
 ```
 
 复制后重新打开 Codex 或新建对话，使 Codex 重新发现技能。安装只需要做一次；
-之后不必把 `SKILL.md` 内容粘贴到对话中。
+之后无需把 `SKILL.md` 内容粘贴到对话中。
 
 ## 使用
 
