@@ -20,19 +20,7 @@ Supported input:
 Required output:
 
 - editable Beamer source and copied paper figures in a work directory;
-- one compiled, visually checked PDF named `<PAPER_NAME>_讲解.pdf` at the
-  user-requested path.
-
-### Output filename contract
-
-Use `<PAPER_NAME>_讲解.pdf` for the delivered PDF unless the user explicitly
-requests a different filename. Prefer the paper's established acronym or short
-name, for example `SAGE_讲解.pdf` or `A-MEM_讲解.pdf`; otherwise use a concise,
-filesystem-safe form of the paper title.
-
-Do not add the venue, year, institution, theme, or template name to the delivered
-filename. In particular, never append `XMU`, `论文讲解_XMU`, or similar branding.
-The XMU identity belongs inside the slides, not in the output filename.
+- one compiled, visually checked PDF at the user-requested path.
 
 Out of scope: arbitrary PDF parsing, MinerU, PPTX, narration, video, cover
 generation, Bilibili upload, and social-media metadata.
@@ -186,10 +174,9 @@ Recompile and rerender after corrections.
 ### 8. Deliver the PDF
 
 Copy the final PDF to the exact location requested by the user. If the user says
-“放桌面”, use their Desktop directory and name the file
-`<PAPER_NAME>_讲解.pdf`. Keep the editable slide project in the work directory.
-Report both paths and the page count. If a differently named intermediate or
-root-level PDF exists, do not reuse that name for delivery.
+“放桌面”, use their Desktop directory and a filesystem-safe paper-based name.
+Keep the editable slide project in the work directory. Report both paths and
+the page count.
 
 ## Completion criteria
 
@@ -199,6 +186,4 @@ The task is complete only when:
 - all pages were visually inspected after the last compile;
 - no placeholders or obsolete SUSTech/Bilibili branding remain;
 - title, authors, methods, metrics, and results match the paper;
-- the delivered filename follows `<PAPER_NAME>_讲解.pdf` and contains no `XMU`
-  suffix unless the user explicitly requested a different filename;
 - the user receives the exact final PDF path.
