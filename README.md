@@ -81,6 +81,10 @@ https://doi.org/10.48550/arXiv.2502.12110
 
 `paper-to-beamer` 会先调用 `paper-download-arxiv-paper-source`，无需分别下达两次命令。
 
+默认交付文件名固定为 `论文名_讲解.pdf`，优先使用论文简称，例如
+`SAGE_讲解.pdf`、`A-MEM_讲解.pdf`。文件名不附加 `XMU`、会议、年份或学校名称；
+XMU 仅表示幻灯片内部使用的主题与校徽。只有用户明确指定其他文件名时才覆盖此规则。
+
 ## 依赖
 
 - Python 3.9 或更高版本；
